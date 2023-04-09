@@ -25,7 +25,7 @@ const start = async() => {
 
     try {
         await sequelize.authenticate()
-        await sequelize.sync()
+        await sequelize.sync({ force: true })
         console.log('Соединение с БД было успешно установлено')
         app.listen(port, () => console.log('Сервер работает на порту:', port));
     } catch (e) {

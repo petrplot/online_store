@@ -11,7 +11,15 @@ const sequelize = new Sequelize(
     username,
     password,
     {  
-        dialect:'mysql'
+        dialect:'mysql',
+        timezone: '+00:00',
+        define: {
+            timestamps: false,
+            charset: 'utf8',
+            dialectOptions: {
+                collate: 'utf8_general_ci',
+            },
+        },
     }
 )
 
