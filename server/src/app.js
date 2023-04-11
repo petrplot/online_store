@@ -24,12 +24,15 @@ app.use('/api', router);
 const start = async() => {
 
     try {
+
         await sequelize.authenticate()
-        await sequelize.sync({ force: true })
+        await sequelize.sync({ alter: true })
         console.log('Соединение с БД было успешно установлено')
-        app.listen(port, () => console.log('Сервер работает на порту:', port));
-    } catch (e) {
-        console.log(e);
+
+        app.listen(port, () => console.log('Сервер работает на порту:', port))
+
+    } catch (error) {
+        console.log(error);
     }
 
 }

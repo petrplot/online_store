@@ -1,19 +1,19 @@
-module.exports.getById = (req, res)=>{
+module.exports.getByIdCategory = (req, res)=>{
     
 }
 
-module.exports.getAll = (req, res)=>{
+module.exports.getAllCategories = (req, res)=>{
     
 }
 
-module.exports.create = (req, res)=>{
+module.exports.createCategory = (req, res)=>{
     
 }
 
-module.exports.remove = (req, res)=>{
+module.exports.removeCategory = (req, res)=>{
     
 }
 
-module.exports.update = (req, res)=>{
+module.exports.updateCategory = (req, res)=>{
     
 }
