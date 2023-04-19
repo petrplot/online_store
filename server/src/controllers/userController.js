@@ -1,32 +1,37 @@
-module.exports.getByIdUser = (req, res)=>{
-    
+class UserController { 
+
+    getByIdUser = (req, res)=>{
+        
+    }
+
+    getAllUsers = (req, res) => {
+        
+    }
+
+    login = (req, res) => {
+        
+    }
+
+    registrationUser = (req, res) => {
+        
+    }
+
+    removeUser = (req, res) => {
+        
+    }
+
+    updateUser = (req, res) => {
+        
+    }
+
+    logout = (req, res) => {
+        
+    }
+
+    refreshToken = (req, res) => {
+        
+    }
+
 }
 
-module.exports.getAllUsers = (req, res) => {
-    
-}
-
-module.exports.login = (req, res) => {
-    
-}
-
-module.exports.registrationUser = (req, res) => {
-    
-}
-
-module.exports.removeUser = (req, res) => {
-    
-}
-
-module.exports.updateUser = (req, res) => {
-    
-}
-
-module.exports.logout = (req, res) => {
-    
-}
-
-module.exports.refreshToken = (req, res) => {
-    
-}
-
+module.exports = new UserController()

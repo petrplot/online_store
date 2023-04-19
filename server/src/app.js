@@ -32,7 +32,7 @@ const start = async() => {
         app.listen(port, () => console.log('Сервер работает на порту:', port))
 
     } catch (error) {
-        console.log(error);
+        console.log(error); //поменять на логгер
     }
 
 }
