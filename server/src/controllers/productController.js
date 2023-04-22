@@ -1,12 +1,12 @@
 const { Product } = require("../models/Product")
-const productService = require("../services/productService")
+const { getAll, getById, create, update } = require("../services/service");
 
 class ProductController{
 
     async getAllProducts(req,res ){
         try {
 
-            const products =  await productService.getAll(req, res)
+            const products =  await getAll(Product)
             return res.json(products)
 
         } catch (error) {
@@ -18,28 +18,9 @@ class ProductController{
     async getByIdProduct(req, res){
         try {
     
-            const {id} = req.params
+            const product = await getById(req, Product)
+            return res.json(product)
     
-            if (id) {
-    
-               const product = await Product.findOne({where:{id}}) 
-    
-               if(product){
-    
-                   return res.json(product)
-    
-               } else {
-    
-                return res.json('Запись не существует')
-    
-               }
-    
-            } else {
-    
-                return res.json('Неверный параметр')
-    
-            }
-        
         } catch (error) {
             console.log(error);
         }
@@ -48,20 +29,15 @@ class ProductController{
 
     async createProduct(req, res){
         try {
+
+            const data = {
+                nameProduct: req.body.nameProduct, 
+                linkToImage: req.body.linkToImage, 
+                productDescription: req.body.productDescription, 
+                priceProduct: req.body.priceProduct
+            }
     
-            const {
-                nameProduct, 
-                linkToImage, 
-                productDescription, 
-                priceProduct
-            } = req.body
-    
-            const product = await Product.create({
-                nameProduct, 
-                linkToImage, 
-                productDescription, 
-                priceProduct
-            }) 
+            const product = await create(data, Product)
     
             return res.json(product)
             
@@ -86,26 +62,16 @@ class ProductController{
 
     async updateProduct (req, res){
         try {
+            
+            const data = {
+                nameProduct: req.body.nameProduct, 
+                linkToImage: req.body.linkToImage, 
+                productDescription: req.body.productDescription, 
+                priceProduct: req.body.priceProduct
+            }
+            const { id } = req.params; //как организовать проверку данных получаемых из req?
     
-            const {
-                nameProduct, 
-                linkToImage, 
-                productDescription, 
-                priceProduct
-            } = req.body
-    
-            const { id } = req.params;
-    
-            await Product.update({ 
-                nameProduct, 
-                linkToImage, 
-                productDescription, 
-                priceProduct
-            }, { 
-                where: { id } 
-            })
-    
-            const product = await Product.findOne({ where: { id } })
+            const product = await update(id, data, Product)
     
             return res.json(product)
     
