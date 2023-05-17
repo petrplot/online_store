@@ -1,46 +1,101 @@
-const { User } = require("../models/User");
-const { getAll } = require("../services/service");
+'use strict'
+
+const { User } = require('../models/User')
+const { getAll, getById } = require('../services/userService')
+
+require('dotenv').config()
 
 class UserController { 
 
-    getByIdUser = (req, res)=>{
+	getByIdUser = async (req, res)=>{
+		try {
+
+			const user = await getById(req, User)
+			return res.json(user)
+
+		} catch (error) {
+			console.log(error)
+		}
         
-    }
+	}
 
-    getAllUsers = async (req, res) => {
-        try {
+	getAllUsers = async (req, res) => {
+		try {
 
-            const users =  await getAll(User)
-            return res.json(users)
+			const users =  await getAll(User)
+			return res.json(users)
     
-        } catch (error) {
-            console.log(error);
-        }
-    }
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
-    login = (req, res) => {
+	login = (req, res) => {
         
-    }
+	}
 
-    registrationUser = (req, res) => {
-        
-    }
+	registrationUser = async (req, res) => {
+		try {
+            
+			const {email, password} = req.body
+			const emailValid = emailValidator(email)
+			const passwordValid = passwordValidator(password)
+			if(!emailValid){
+				return  res.json('введите корректный email')             
+			}
+			if(!passwordValid){
+				return  res.json('введите корректный пароль')
+			}
+			const userExists = await User.findOne({where:{email}})
+			if(userExists){
+				return res.json('пользователь с таким email уже существует')
+			}
 
-    removeUser = (req, res) => {
-        
-    }
+			const secret = process.env.SECRET_KEY
+			const hashPass = ''
 
-    updateUser = (req, res) => {
-        
-    }
+			const user = await User.create({email, password: hashPass})
 
-    logout = (req, res) => {
-        
-    }
+			const userDto = {
+				userId: user.id,
+				email: user.email,
+				role: user.role
+			}
 
-    refreshToken = (req, res) => {
+			const {refreshToken, accesToken} = generateToken({userDto, hashPass})//придумать генерацию токена
+            
+			user.createToken({token: refreshToken})
+
+			res.setHeader(
+				'Set-cookie',
+				cookie.serialize('refreshToken', refreshToken, {
+					maxAge: 30 * 24 * 60 * 60 * 1000,
+					httpOnly: true,
+				})
+			)
+
+			res.json({user: userDto, accesToken})
+
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	removeUser = (req, res) => {
         
-    }
+	}
+
+	updateUser = (req, res) => {
+        
+	}
+
+	logout = (req, res) => {
+        
+	}
+
+	refreshToken = (req, res) => {
+        
+	}
 
 }
 
